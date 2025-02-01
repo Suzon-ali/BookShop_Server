@@ -1,21 +1,22 @@
-import express from 'express';
+import express from 'express'
+import { USER_ROLE } from '../User/user.constant';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
-import { BookControllers } from './book.controller';
-import { bookValidationSchemas } from './book.validation';
-import { USER_ROLE } from '../User/user.constant';
+import { bookValidationSchemas } from '../Book/book.validation';
+import { BookControllers } from '../Book/book.controller';
+import { orderValidationSchemas } from './order.validation';
+import { OrderControllers } from './order.controller';
 
 const router = express.Router();
 
-//create book
+//create order
 router.post(
   '/',
-  auth(USER_ROLE.admin),
-  validateRequest(bookValidationSchemas.bookValidationSchema),
-  BookControllers.createBook,
+  validateRequest(orderValidationSchemas.orderValidationSchema),
+  OrderControllers.createOrder,
 );
 
-//get All Books
+//get All Orders
 router.get('/', BookControllers.getAllBooks);
 router.get(
   '/total-book-count',
@@ -23,21 +24,21 @@ router.get(
   BookControllers.getBookLength,
 );
 
-//get single books by Id
+//get single order by Id
 router.get('/:id', BookControllers.getSingleBookById);
 
-//update book
+//update order
 router.patch(
   '/:id',
-  auth(USER_ROLE.admin),
+  auth(USER_ROLE.user),
   validateRequest(bookValidationSchemas.bookUpdateValidationSchema),
   BookControllers.updateSingleBook,
 );
 
-//delete book
+//delete order
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin),
+  auth(USER_ROLE.user),
   validateRequest(bookValidationSchemas.bookUpdateValidationSchema),
   BookControllers.deleteBook,
 );

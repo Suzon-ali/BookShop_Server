@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 import AppError from '../../error/AppError';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { User } from '../user/user.model';
-import { AdminServices } from './admin.services';
 import { Book } from '../Book/book.model';
+import { User } from '../User/user.model';
+import { AdminServices } from './admin.services';
 
 const blockUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.userId;

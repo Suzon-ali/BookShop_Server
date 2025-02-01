@@ -9,19 +9,14 @@ import { Book } from './book.model';
 import { BookServices } from './book.service';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
-  const loggedInUser = (req as any).user;
-  const book = {
-    ...req.body,
-    author: loggedInUser?.author,
-  };
+  const book = req?.body;
   const result = await BookServices.creatBookIntoDB(book);
-  const populatedResult = await result.populate('author');
 
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
     message: 'Book created succesfully!',
-    data: populatedResult,
+    data: result,
   });
 });
 
@@ -59,7 +54,6 @@ const updateSingleBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const payload = req.body;
   const currentUser = (req as any).user;
-  const currentBook = await Book.findById({ _id: id });
 
   //check if the id is valid objectId
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -67,21 +61,16 @@ const updateSingleBook = catchAsync(async (req: Request, res: Response) => {
   }
 
   //check if it's the same user updating it's own book
-  if (currentUser.author !== currentBook?.author?.toString()) {
-    throw new AppError(
-      StatusCodes.UNAUTHORIZED,
-      'Unauthorized Request! here',
-      '',
-    );
+  if (currentUser.role !== 'admin') {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Unauthorized!', '');
   }
   const result = await BookServices.updateBookIntoDB(id, payload);
-  const populatedResult = await result?.populate('author');
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: 'Book updated succesfully!',
-    data: populatedResult,
+    data: result,
   });
 });
 
@@ -103,7 +92,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
   }
 
   // Check if it's the same user or an authorized admin
-  if (currentUser?.author !== currentBook?.author?.toString()) {
+  if (currentUser?.role !== 'admin') {
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Unauthorized Request!', '');
   }
 

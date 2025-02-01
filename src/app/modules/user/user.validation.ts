@@ -7,14 +7,18 @@ const UserRegistrationSchema = z.object({
       .string({ required_error: 'Email is required!' })
       .email({ message: 'Invalid email format!' })
       .refine(
-        async email => {
+        async (email) => {
           const user = await User.findOne({ email });
           return !user;
         },
         { message: 'User already exist' },
       ),
-    password: z.string({ required_error: 'Password is required!' }).min(6, 'Password must be at least 6 characters'),
-    name: z.string({ message: 'Name must be string' }).min(1, 'Name is required'),
+    password: z
+      .string({ required_error: 'Password is required!' })
+      .min(6, 'Password must be at least 6 characters'),
+    name: z
+      .string({ message: 'Name must be string' })
+      .min(1, 'Name is required'),
   }),
 });
 

@@ -30,7 +30,6 @@ type Order = {
   status: 'Pending' | 'Shipped' | 'Delivered' | 'Cancelled';
 };
 
-
 export type TUserRole = keyof typeof USER_ROLE;
 
 export interface UserModel extends Model<TUser> {

@@ -9,10 +9,11 @@ export type TBook = {
   stock: number;
   description?: string;
   coverImage?: string;
+  isDeleted?: boolean;
   publishedDate: Date;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 export interface BookModel extends Model<TBook> {
   isBookExistById(id: string): Promise<TBook | null>;

@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import AppError from '../../error/AppError';
 import { sendEmail } from '../../utils/sendMail';
-import { User } from '../user/user.model';
+import { User } from '../User/user.model';
 import { TUserLogin } from './auth.interface';
 import createToken from './auth.utils';
 

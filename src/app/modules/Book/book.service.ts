@@ -6,6 +6,13 @@ import { Book } from './book.model';
 import { bookSearchFields } from './book.constant';
 
 const creatBookIntoDB = async (payload: TBook) => {
+  const title = payload?.title;
+  const author = payload?.author;
+
+  const isBookAlreadyExist = await Book.findOne({ title : title, author: author });
+  if (isBookAlreadyExist) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'This book already Exist!', '');
+  }
   const newBook = new Book(payload);
   const result = await newBook.save();
   return result;

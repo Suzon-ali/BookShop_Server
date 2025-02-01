@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { model, Schema } from 'mongoose';
-import { TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { TUser, UserModel } from './user.interface';
 
 interface ICartItem {
   productId: string;
@@ -48,14 +48,13 @@ const UserSchema = new Schema<TUser>(
       required: true,
       default: 'user',
     },
-    isBlocked: {type: Boolean, default: false},
+    isBlocked: { type: Boolean, default: false },
     cart: { type: [CartItemSchema], default: [] },
     orders: { type: [OrderSchema], default: [] },
     wishlist: { type: [String], default: [] },
   },
   { timestamps: true },
 );
-
 
 //middlewares
 UserSchema.pre('save', async function (next) {

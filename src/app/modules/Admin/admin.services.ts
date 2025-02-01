@@ -1,6 +1,5 @@
-import { Book } from "../Book/book.model";
-import { User } from "../user/user.model";
-
+import { Book } from '../Book/book.model';
+import { User } from '../User/user.model';
 
 const blockUserFromDB = async (id: string) => {
   const result = await User.findByIdAndUpdate({ _id: id }, { isBlocked: true });

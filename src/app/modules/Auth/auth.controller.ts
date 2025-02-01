@@ -19,7 +19,7 @@ const loginUser = catchAsync(async (req, res) => {
     success: true,
     message: 'User logged in succesfully!',
     statusCode: StatusCodes.OK,
-    data: {token : accessToken},
+    data: { token: accessToken },
   });
 });
 
