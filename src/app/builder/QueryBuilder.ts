@@ -9,7 +9,7 @@ class QueryBuilder<T> {
     this.query = query;
   }
 
-  // Search blogs by title or content
+  // Search books by title or content
   search(searchableFields: string[]) {
     const search = this?.query?.search as string;
     if (search) {
@@ -22,7 +22,7 @@ class QueryBuilder<T> {
     return this;
   }
 
-  // Filter blogs by author ID
+  // Filter books by author ID
   filter() {
     const filter = this?.query?.filter;
     if (filter) {
@@ -33,7 +33,7 @@ class QueryBuilder<T> {
     return this;
   }
 
-  // Sort blogs by specific fields and order
+  // Sort books by specific fields and order
   sort() {
     const sortBy = (this?.query?.sortBy as string) || 'createdAt';
     const sortOrder = (this?.query?.sortOrder as string) === 'asc' ? '' : '-';

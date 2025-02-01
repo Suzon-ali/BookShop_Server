@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 import AppError from '../../error/AppError';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { Blog } from '../blog/blog.model';
 import { User } from '../user/user.model';
 import { AdminServices } from './admin.services';
+import { Book } from '../Book/book.model';
 
 const blockUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.userId;
@@ -39,7 +39,7 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
-const deleteBlogByAdmin = catchAsync(async (req: Request, res: Response) => {
+const deleteBookByAdmin = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
   // Check if the ID is a valid ObjectId
@@ -47,17 +47,17 @@ const deleteBlogByAdmin = catchAsync(async (req: Request, res: Response) => {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid userId!', '');
   }
   // Check if the user is exist
-  if (!(await Blog.isBlogExistById(id))) {
+  if (!(await Book.isBookExistById(id))) {
     throw new AppError(StatusCodes.NOT_FOUND, 'User not found', '');
   }
 
-  const result = await AdminServices.deleteBlogByAdminFromDB(id);
+  const result = await AdminServices.deleteBookByAdminFromDB(id);
 
   if (result) {
     sendResponse(res, {
       statusCode: StatusCodes.OK,
       success: true,
-      message: 'Blog deleted successfully!',
+      message: 'Book deleted successfully!',
       data: null,
     });
   }
@@ -65,5 +65,5 @@ const deleteBlogByAdmin = catchAsync(async (req: Request, res: Response) => {
 
 export const AdminControllers = {
   blockUser,
-  deleteBlogByAdmin,
+  deleteBookByAdmin,
 };
